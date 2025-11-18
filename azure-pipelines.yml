@@ -7,18 +7,9 @@ trigger:
   - master
 
 variables:
-  # service connection (you confirmed this is correct)
   azureServiceConnectionId: 'myServiceConnection'
-
-  # Web app name (change if different)
   webAppName: 'webappapplicationdevops'
-
-  # Agent image
-
-  # Python version
   pythonVersion: '3.10'
-
-  # Project root (change if your app is in subfolder, e.g. 'src')
   projectRoot: $(System.DefaultWorkingDirectory)
 
 stages:
@@ -41,8 +32,6 @@ stages:
       workingDirectory: $(projectRoot)
 
     - script: |
-        # run tests if you have them (uncomment if needed)
-        # pytest -q
         echo "Preparing package..."
       displayName: 'Optional: Run tests'
 
@@ -85,8 +74,6 @@ stages:
               appName: '$(webAppName)'
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               appSettings: |
-                WEBSITE_RUN_FROM_PACKAGE=1
-
-
-
-
+                [
+                  {"name": "WEBSITE_RUN_FROM_PACKAGE", "value": "1"}
+                ]
