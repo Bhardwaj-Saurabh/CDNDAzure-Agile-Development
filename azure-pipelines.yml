@@ -1,16 +1,13 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
+# Azure DevOps pipeline for Python Flask app on Azure Web App (Linux)
 
 trigger:
   - master
 
 variables:
-  azureServiceConnectionId: 'myServiceConnection'
-  webAppName: 'webappapplicationdevops'
-  pythonVersion: '3.10'
-  projectRoot: $(System.DefaultWorkingDirectory)
+  azureServiceConnectionId: 'myServiceConnection'   # Azure service connection
+  webAppName: 'webappapplicationdevops'             # Your Web App name
+  pythonVersion: '3.10'                             # Python version
+  projectRoot: $(System.DefaultWorkingDirectory)    # Project root
 
 stages:
 - stage: Build
@@ -20,21 +17,26 @@ stages:
     displayName: Install & Package
     pool: myAgentPool
     steps:
+    # Use specified Python version
     - task: UsePythonVersion@0
       inputs:
         versionSpec: '$(pythonVersion)'
       displayName: 'Use Python $(pythonVersion)'
 
+    # Install dependencies
     - script: |
         python -m pip install --upgrade pip setuptools wheel
         if [ -f "$(projectRoot)/requirements.txt" ]; then pip install -r "$(projectRoot)/requirements.txt"; fi
       displayName: 'Install Python dependencies'
       workingDirectory: $(projectRoot)
 
+    # Optional: run tests
     - script: |
+        # pytest -q   # Uncomment if you have tests
         echo "Preparing package..."
       displayName: 'Optional: Run tests'
 
+    # Archive the app into a ZIP file
     - task: ArchiveFiles@2
       displayName: 'Archive app to zip'
       inputs:
@@ -44,12 +46,13 @@ stages:
         archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
         replaceExistingArchive: true
 
+    # Publish artifact for deployment
     - publish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
       artifact: drop
       displayName: 'Publish artifact'
 
 - stage: Deploy
-  displayName: Deploy to Azure WebApp
+  displayName: Deploy to Azure Web App
   dependsOn: Build
   condition: succeeded()
   jobs:
@@ -61,11 +64,12 @@ stages:
       runOnce:
         deploy:
           steps:
-
+          # Download build artifact
           - download: current
             artifact: drop
             displayName: 'Download artifact'
 
+          # Deploy to Azure Web App (Linux)
           - task: AzureWebApp@1
             displayName: 'Deploy to Azure Web App (Linux)'
             inputs:
@@ -74,6 +78,4 @@ stages:
               appName: '$(webAppName)'
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               appSettings: |
-                [
-                  {"name": "WEBSITE_RUN_FROM_PACKAGE", "value": "1"}
-                ]
+                WEBSITE_RUN_FROM_PACKAGE=1
