@@ -84,12 +84,9 @@ stages:
               appType: 'webAppLinux'
               appName: '$(webAppName)'
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              # Explicitly define settings as a YAML array:
               appSettings: |
-                [
-                  {"name": "WEBSITE_RUN_FROM_PACKAGE", "value": "1"},
-                  {"name": "PYTHONPATH", "value": "/home/site/wwwroot/antenv/lib/python3.10/site-packages"}
-                ]
+                WEBSITE_RUN_FROM_PACKAGE=1
+                PYTHONPATH=/home/site/wwwroot/antenv/lib/python3.10/site-packages
 
 
 
