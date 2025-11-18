@@ -86,7 +86,6 @@ stages:
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               appSettings: |
                 WEBSITE_RUN_FROM_PACKAGE=1
-                PYTHONPATH=/home/site/wwwroot/antenv/lib/python3.10/site-packages
 
 
 
