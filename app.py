@@ -57,7 +57,7 @@ def predict():
     
     # Specify the expected exception type: FileNotFoundError
     try:
-        clf = joblib.load("boston_housing_prediction.joblib")
+        clf = joblib.load("Housing_price_model/LinearRegression.joblib")
     except FileNotFoundError: # Changed from bare except
         LOG.info("Model file not found: boston_housing_prediction.joblib")
         return "Model not loaded", 404 # Return a 404 status code for clarity
@@ -76,7 +76,7 @@ def predict():
 if __name__ == "__main__":
     # Load the model outside the request handler to avoid repeated loading
     # and verify its presence at startup
-    model_path = "boston_housing_prediction.joblib"
+    model_path = "Housing_price_model/LinearRegression.joblib"
     if not os.path.exists(model_path):
         LOG.error(f"Error: Model file '{model_path}' not found!")
         # You might want to exit or handle this more robustly in production
