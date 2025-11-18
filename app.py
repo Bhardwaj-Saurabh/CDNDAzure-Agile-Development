@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from flask.logging import create_logger
 import logging
+import os # Import the os module
 
 import pandas as pd
 import joblib
@@ -54,11 +55,12 @@ def predict():
     """
     json_payload = request.json
     
+    # Specify the expected exception type: FileNotFoundError
     try:
         clf = joblib.load("boston_housing_prediction.joblib")
-    except:
-        LOG.info("JSON payload: %s", json_payload)
-        return "Model not loaded"
+    except FileNotFoundError: # Changed from bare except
+        LOG.info("Model file not found: boston_housing_prediction.joblib")
+        return "Model not loaded", 404 # Return a 404 status code for clarity
 
     LOG.info("JSON payload: %s", json_payload)
     
@@ -72,4 +74,11 @@ def predict():
     return jsonify({'Prediction': prediction})
 
 if __name__ == "__main__":
+    # Load the model outside the request handler to avoid repeated loading
+    # and verify its presence at startup
+    model_path = "boston_housing_prediction.joblib"
+    if not os.path.exists(model_path):
+        LOG.error(f"Error: Model file '{model_path}' not found!")
+        # You might want to exit or handle this more robustly in production
+    
     app.run(host='0.0.0.0', port=8000, debug=True)
