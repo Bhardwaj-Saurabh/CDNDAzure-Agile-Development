@@ -78,4 +78,6 @@ stages:
               appName: '$(webAppName)'
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
               appSettings: |
-                WEBSITE_RUN_FROM_PACKAGE=1
+                [
+                  { "name": "WEBSITE_RUN_FROM_PACKAGE", "value": "1" }
+                ]
