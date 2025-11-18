@@ -87,4 +87,6 @@ stages:
               # optional: set app settings at deploy time
               appSettings: |
                 -WEBSITE_RUN_FROM_PACKAGE 1
+                -PYTHONPATH /home/site/wwwroot/antenv/lib/python3.10/site-packages
+
 
