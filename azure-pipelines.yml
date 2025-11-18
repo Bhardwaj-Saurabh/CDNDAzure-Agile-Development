@@ -77,7 +77,6 @@ stages:
               appType: 'webAppLinux'
               appName: '$(webAppName)'
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              appSettings: |
-                [
-                  { "name": "WEBSITE_RUN_FROM_PACKAGE", "value": "1" }
-                ]
+              runtimeStack: 'PYTHON|3.10'
+              startUpCommand: 'gunicorn --bind=0.0.0.0 --timeout 600 app:app'
+              appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1 -SCM_DO_BUILD_DURING_DEPLOYMENT false'
