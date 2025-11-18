@@ -84,9 +84,10 @@ stages:
               appType: 'webAppLinux'
               appName: '$(webAppName)'
               package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
-              # optional: set app settings at deploy time
+              # Use the corrected appSettings format below:
               appSettings: |
                 -WEBSITE_RUN_FROM_PACKAGE 1
                 -PYTHONPATH /home/site/wwwroot/antenv/lib/python3.10/site-packages
+
 
 
