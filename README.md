@@ -16,8 +16,8 @@ This project demonstrates building a continuous delivery pipeline for a Python-b
 
 ## Project Plan
 
-* [Trello Board](https://trello.com) - Project management and task tracking
-* [Project Spreadsheet](https://docs.google.com/spreadsheets) - Project timeline and quarterly planning
+* [Trello Board](https://trello.com/b/WFJ4GZnq/azure-devops-nanodegee-project2) - Project management and task tracking
+* [Project Spreadsheet](https://docs.google.com/spreadsheets/d/16D7efqFm5xXfVsjDsAhvdXBDYVfipi5b/edit?usp=drive_link&ouid=100693968475187864506&rtpof=true&sd=true) - Project timeline and quarterly planning
 
 ## Architectural Diagram
 
@@ -293,7 +293,7 @@ Future improvements for this project:
 
 ## Demo
 
-[Link to demonstration video on YouTube]
+[Demo - YouTube](https://youtu.be/RAmu8h85lRA)
 
 ## License
 
