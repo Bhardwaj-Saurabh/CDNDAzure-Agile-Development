@@ -1,0 +1,90 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+  - master
+
+variables:
+  # service connection (you confirmed this is correct)
+  azureServiceConnectionId: 'myServiceConnection'
+
+  # Web app name (change if different)
+  webAppName: 'webappapplicationdevops'
+
+  # Agent image
+
+  # Python version
+  pythonVersion: '3.10'
+
+  # Project root (change if your app is in subfolder, e.g. 'src')
+  projectRoot: $(System.DefaultWorkingDirectory)
+
+stages:
+- stage: Build
+  displayName: Build
+  jobs:
+  - job: BuildJob
+    displayName: Install & Package
+    pool: myAgentPool
+    steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '$(pythonVersion)'
+      displayName: 'Use Python $(pythonVersion)'
+
+    - script: |
+        python -m pip install --upgrade pip setuptools wheel
+        if [ -f "$(projectRoot)/requirements.txt" ]; then pip install -r "$(projectRoot)/requirements.txt"; fi
+      displayName: 'Install Python dependencies'
+      workingDirectory: $(projectRoot)
+
+    - script: |
+        # run tests if you have them (uncomment if needed)
+        # pytest -q
+        echo "Preparing package..."
+      displayName: 'Optional: Run tests'
+
+    - task: ArchiveFiles@2
+      displayName: 'Archive app to zip'
+      inputs:
+        rootFolderOrFile: '$(projectRoot)'
+        includeRootFolder: false
+        archiveType: zip
+        archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+        replaceExistingArchive: true
+
+    - publish: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+      artifact: drop
+      displayName: 'Publish artifact'
+
+- stage: Deploy
+  displayName: Deploy to Azure WebApp
+  dependsOn: Build
+  condition: succeeded()
+  jobs:
+  - deployment: DeployJob
+    displayName: Deploy to Web App
+    pool: myAgentPool
+    environment: 'azure-devops'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+
+          - download: current
+            artifact: drop
+            displayName: 'Download artifact'
+
+          - task: AzureWebApp@1
+            displayName: 'Deploy to Azure Web App (Linux)'
+            inputs:
+              azureSubscription: '$(azureServiceConnectionId)'
+              appType: 'webAppLinux'
+              appName: '$(webAppName)'
+              package: '$(Pipeline.Workspace)/drop/$(Build.BuildId).zip'
+              # optional: set app settings at deploy time
+              appSettings: |
+                -WEBSITE_RUN_FROM_PACKAGE 1
+
