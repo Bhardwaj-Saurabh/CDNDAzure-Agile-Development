@@ -293,7 +293,7 @@ Future improvements for this project:
 
 ## Demo
 
-[Demo - YouTube](https://www.youtube.com/watch?v=D9K2ZdeOfoU)
+[Demo - YouTube](https://youtu.be/DqXSnyxFdLo)
 
 ## License
 
