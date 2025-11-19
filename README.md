@@ -1,6 +1,6 @@
 # Azure ML Housing Price Prediction - CI/CD Pipeline
 
-[![Build Status](https://dev.azure.com/odluser290170/aidevops/_apis/build/status%2FBhardwaj-Saurabh.CDNDAzure-Agile-Development?branchName=master)](https://dev.azure.com/odluser290170/aidevops/_build/latest?definitionId=1&branchName=master)
+![Build Status](https://github.com/Bhardwaj-Saurabh/CDNDAzure-Agile-Development/actions/workflows/<WORKFLOW_FILE>/badge.svg?branch=master)
 
 ## Overview
 
@@ -17,7 +17,7 @@ This project demonstrates building a continuous delivery pipeline for a Python-b
 ## Project Plan
 
 * [Trello Board](https://trello.com/b/WFJ4GZnq/azure-devops-nanodegee-project2) - Project management and task tracking
-* [Project Spreadsheet](https://docs.google.com/spreadsheets/d/16D7efqFm5xXfVsjDsAhvdXBDYVfipi5b/edit?usp=drive_link&ouid=100693968475187864506&rtpof=true&sd=true) - Project timeline and quarterly planning
+* [Project Spreadsheet](https://docs.google.com/spreadsheets/d/16D7efqFm5xXfVsjDsAhvdXBDYVfipi5b/edit?usp=sharing&ouid=100693968475187864506&rtpof=true&sd=true) - Project timeline and quarterly planning
 
 ## Architectural Diagram
 
