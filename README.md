@@ -1,6 +1,6 @@
 # Azure ML Housing Price Prediction - CI/CD Pipeline
 
-![Build Status](https://github.com/Bhardwaj-Saurabh/CDNDAzure-Agile-Development/actions/workflows/<WORKFLOW_FILE>/badge.svg?branch=master)
+![Build Status](https://github.com/Bhardwaj-Saurabh/CDNDAzure-Agile-Development/actions/workflows/main.yml/badge.svg?branch=master)
 
 ## Overview
 
